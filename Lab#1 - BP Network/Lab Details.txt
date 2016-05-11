@@ -1,0 +1,286 @@
+
+EEG Data Mining - Report
+Author: Chuting Lin
+Date:   2016.5.6
+
+Enviorment: 
+	Windows 10 / MINGW(GCC) / Matlab 2012b
+	Python2.7 (+Anaconda)
+
+--------------------------------------------------
+Lab #1: @ BP - Network
+
+Discription:
+    This is the first try to train the data from
+EEG, because the channel A27/A29/B32 is associatted
+to eyes-event most, so I down-sample the data from
+64 channel to 3 channel. And I choose the first 4
+person's experiment data as the training set and the
+5th person as the test set.
+    In this lab, I use BP Network to train the data.
+There are 18 classes and I build up a classifier to
+classify the test set and count the error.
+
+Note:
+    The meaning of 18 labels is mentioned at the
+bottom of this page (Appendix #1).
+
+> inputNum:  2048 * 3 + 1 
+> function: logsi   logsig   logsig   logsig(output)
+> nodeNum:   50   *  50    *  100   *   18
+
+trainSet: 4580 (300 M) - sub_train.csv
+testSet:  1800 (70 M) - sub_test.csv
+
+iterations: 250 times
+hit/total: 101 / 1800 ( 0.056 )
+
+summary: very bad!
+
+--------------------------------------------------
+Lab #2: @ BP - Network (for multiple classifiers)
+
+Discription:
+    From the lab above, the classifier for 18 classes
+is very bad. So I decide to depart it into 3 classifier.
+    A. circle per degree - 3 classes;
+       1 - 0.05 cpd; 2 - 0.1 cpd; 3 - 0.3 cpd
+    B. circle per terminal - 3 classes;
+       1 - 1 cps; 2 - 5 cps; 3 - 10 cps
+    C. orientation - 2 classes;
+       1 - 0 deg; 2 - 90 deg
+
+1. Classifier on Degree
+iterations: > 500 times
+hit/total: 900 / 1800 ( = 0.500)
+
+2. Classifier on cpd
+iterations: 250 times
+hit/total: 600 / 1800 ( = 0.333 )
+
+2. Classifier on cpd
+iterations: 250 times
+hit/total: 600 / 1800 ( = 0.333 )
+
+--------------------------------------------------
+Lab #3: @ BP - Network (for single person)
+
+Discription:
+    From the lab above, I found that every people
+has different brain electro-signal characteristic.
+So I do the lab for the single person this time.
+
+Network
+input   -   logsig  -  logsig   -   logsig   -   output
+2048*3      500        500          1000         X
+
+1. For the first person and 18 classes
+hit/total: 0.10417
+
+2. For the first person and 2 classes in deg
+hit/total: 0.54261
+
+3. For the first person and 3 classes in cpd
+hit/total: 0.57413
+
+4. For the first person and 3 classes in cps
+hit/total: 0.36556
+
+--------------------------------------------------
+Appendix #1: 10 persons - BP LAB
+
+>>> person 1
+1. For the first person and 18 classes
+iteration: 200 times
+hit/total: 95 / 900 ( > 0.1056 )
+
+2. For the first person and 2 classes in deg
+iteration: 200 times
+hit/total: 483 / 900 ( > 0.5367 )
+
+3. For the first person and 3 classes in cpd
+iteration: 100 times
+hit/total: 560 / 900 ( > 0.6222 )
+
+4. For the first person and 3 classes in cps
+iteration: 100 times
+hit/total: 346 / 900 ( > 0.3844 )
+
+>>> person 2
+1. For the first person and 18 classes
+iteration: 150 times
+hit/total: 109 / 841 ( > 0.1296 )
+
+2. For the first person and 2 classes in deg
+iteration: 100 times
+hit/total: 511 / 841 ( > 0.6076 )
+
+3. For the first person and 3 classes in cpd
+iteration: 120 times
+hit/total: 521 / 841 ( > 0.6195 )
+
+4. For the first person and 3 classes in cps
+iteration: 100 times
+hit/total: 284 / 841 ( > 0.3377 )
+
+>>> person 3
+1. For the first person and 18 classes
+iteration: 150 times
+hit/total: 64 / 723 ( > 0.0885 )
+
+2. For the first person and 2 classes in deg
+iteration: 100 times
+hit/total: 383 / 723 ( > 0.5297 )
+
+3. For the first person and 3 classes in cpd
+iteration: 120 times
+hit/total: 558 / 723 ( > 0.7718 )
+
+4. For the first person and 3 classes in cps
+iteration: 100 times
+hit/total: 241 / 723 ( > 0.3333 )
+
+>>> person 4
+1. For the first person and 18 classes
+iteration: 60 times
+hit/total: 95 / 870 ( > 0.1092 )
+
+2. For the first person and 2 classes in deg
+iteration: 100 times
+hit/total: 431 / 870 ( > 0.4954 )
+
+3. For the first person and 3 classes in cpd
+iteration: 100 times
+hit/total: 265 / 870 ( > 0.3046 )
+
+4. For the first person and 3 classes in cps
+iteration: 100times
+hit/total: 321 / 723 ( > 0.3690 )
+
+>>> person 5
+1. For the first person and 18 classes
+iteration: 150 times
+hit/total: 80 / 900 ( > 0.0889 )
+
+2. For the first person and 2 classes in deg
+iteration: 300 times
+hit/total: 469 / 900 ( > 0.5211 )
+
+3. For the first person and 3 classes in cpd
+iteration: 200 times
+hit/total: 443 / 900 ( > 0.4922 )
+
+4. For the first person and 3 classes in cps
+iteration: 100 times
+hit/total: 308 / 900 ( > 0.3422 )
+
+>>> person 6
+1. For the first person and 18 classes
+iteration: 150 times
+hit/total: 76 / 900 ( > 0.0844 )
+
+2. For the first person and 2 classes in deg
+iteration: 100 times
+hit/total: 513 / 900 ( > 0.5700 )
+
+3. For the first person and 3 classes in cpd
+iteration: 250 times
+hit/total: 426 / 900 ( > 0.4733 )
+
+4. For the first person and 3 classes in cps
+iteration: 100 times
+hit/total: 318 / 900 ( > 0.3533 )
+
+>>> person 7
+1. For the first person and 18 classes
+iteration: 150 times
+hit/total: 79 / 900 ( > 0.0878 )
+
+2. For the first person and 2 classes in deg
+iteration: 50 times
+hit/total: 459 / 900 ( > 0.5100 )
+
+3. For the first person and 3 classes in cpd
+iteration: 100 times
+hit/total: 541 / 900 ( > 0.6011 )
+
+4. For the first person and 3 classes in cps
+iteration: 80 times
+hit/total: 366 / 900 ( > 0.4067 )
+
+>>> person 8
+1. For the first person and 18 classes
+iteration: 100 times
+hit/total: 144 / 900 ( > 0.1600 )
+
+2. For the first person and 2 classes in deg
+iteration: 100 times
+hit/total: 537 / 900 ( > 0.5967 )
+
+3. For the first person and 3 classes in cpd
+iteration: 100 times
+hit/total: 785 / 900 ( > 0.8722 )
+
+4. For the first person and 3 classes in cps
+iteration: 120 times
+hit/total: 356 / 900 ( > 0.3956 )
+
+>>> person 9
+1. For the first person and 18 classes
+iteration: 100 times
+hit/total: 84 / 900 ( > 0.0933 )
+
+2. For the first person and 2 classes in deg
+iteration: 100 times
+hit/total: 486 / 900 ( > 0.5400 )
+
+3. For the first person and 3 classes in cpd
+iteration: 100 times
+hit/total: 468 / 900 ( > 0.5200 )
+
+4. For the first person and 3 classes in cps
+iteration: 100 times
+hit/total: 321 / 900 ( > 0.3567 )
+
+>>> person 10
+1. For the first person and 18 classes
+iteration: 150 times
+hit/total: 85 / 900 ( > 0.0944 )
+
+2. For the first person and 2 classes in deg
+iteration: 100 times
+hit/total: 467 / 900 ( > 0.5189 )
+
+3. For the first person and 3 classes in cpd
+iteration: 120 times
+hit/total: 418 / 900 ( > 0.4644 )
+
+4. For the first person and 3 classes in cps
+iteration: 100 times
+hit/total: 339 / 900 ( > 0.3767 )
+
+--------------------------------------------------
+Appendix #2: 18 Labels
+
+label = (cpd - 1) * 6 + (cps - 1) * 2 + deg
+
+label   cpd    cps   degree
+  1     0.05    1      0
+  2     0.05    1      90
+  3     0.05    5      0
+  4     0.05    5      90
+  5     0.05    10     0
+  6     0.05    10     90
+  7     0.1     1      0
+  8     0.1     1      90
+  9     0.1     5      0
+  10    0.1     5      90
+  11    0.1     10     0
+  12    0.1     10     90
+  13    0.3     1      0
+  14    0.3     1      90
+  15    0.3     5      0
+  16    0.3     5      90
+  17    0.3     10     0
+  18    0.3     10     90
+--------------------------------------------------
